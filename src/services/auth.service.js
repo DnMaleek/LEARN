@@ -59,6 +59,42 @@ async function registerUser(userData) {
     }
 }
 
+
+
+async function loginUser(userData) {
+    const { email, password } = userData;
+
+    // 1. Find user
+    const user = await db("users")
+        .where({ email })
+        .first();
+
+    // 2. Check whether user exists
+    if (!user) {
+        const error = new Error("Invalid email or password");
+        error.statusCode = 401;
+        throw error;
+    }
+
+    // 3. Compare submitted password with stored hash
+    const isPasswordCorrect = await bcrypt.compare(
+        password,
+        user.password
+    );
+
+    // 4. Reject incorrect password
+    if (!isPasswordCorrect) {
+        const error = new Error("Invalid email or password");
+        error.statusCode = 401;
+        throw error;
+    }
+
+    // 5. Return authenticated user
+    return user;
+}
+
+
 module.exports = {
-    registerUser
+    registerUser,
+    loginUser
 };

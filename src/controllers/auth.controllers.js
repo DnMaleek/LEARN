@@ -1,4 +1,4 @@
-const { registerUser } = require("../services/auth.service");
+const { registerUser, loginUser } = require("../services/auth.service");
 const { validationResult } = require("express-validator");
 
 const register = async (req, res) => {
@@ -21,18 +21,27 @@ const register = async (req, res) => {
   }
 };
 
-const login = (req, res) => {
- try{
-  res.json({
-    message:"Login route is working"
-  })
- }
- catch(error){
-  res,status(500).json({
-    message:'internal server error'
-  })
+const login =async (req, res) => {
+  try {
+        const user = await loginUser(req.body);
 
- }
+        res.json({
+            message: "User found successfully",
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            }
+        });
+
+    } catch (error) {
+        res.status(error.statusCode || 500).json({
+            message: error.statusCode
+                ? error.message
+                : "Internal server error"
+        });
+    }
 };
 
 module.exports = {

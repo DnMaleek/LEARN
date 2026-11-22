@@ -1,6 +1,6 @@
 const jwt = require ('jsonwebtoken')
 
-function generateAcessToken(user) {
+function generateAccessToken(user) {
     return jwt.sign(
         {
             id:user.id,
@@ -41,7 +41,7 @@ function verifyRefreshToken(token) {
 }
 
 module.exports = {
-    generateAcessToken,
+    generateAccessToken,
     generateRefreshToken,
     verifyAccessToken,
     verifyRefreshToken
