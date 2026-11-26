@@ -30,12 +30,13 @@ const loginValidator = [
         .notEmpty()
         .withMessage("Email is required")
         .isEmail()
-        .withMessage("Please provide a valid email"),
+        .withMessage("Please provide a valid email")
+        .normalizeEmail(),
 
     body("password")
         .notEmpty()
         .withMessage("Password is required")
-];;
+];
 
 module.exports = {
     registerValidator,

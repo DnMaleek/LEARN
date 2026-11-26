@@ -1,5 +1,3 @@
-const crypto = require("crypto");
-
 const { doubleCsrf } = require("csrf-csrf");
 
 const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({

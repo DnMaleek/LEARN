@@ -15,13 +15,26 @@ const { doubleCsrfProtection } = require("../middleware/csrf.middleware");
 
 const router = express.Router();
 
-router.post("/register", authLimiter, doubleCsrfProtection,registerValidator, register);
-router.post("/login",loginValidator, authLimiter, doubleCsrfProtection, login);
 router.post(
-    "/refresh",
-    doubleCsrfProtection,
-    refresh
-);router.post("/logout", authenticateToken, doubleCsrfProtection, logout);
+  "/register",
+  authLimiter,
+  doubleCsrfProtection,
+  registerValidator,
+  register,
+);
+router.post(
+  "/login",
+  loginValidator,
+  authLimiter,
+  doubleCsrfProtection,
+  login,
+);
+router.post(
+  "/refresh",
+  doubleCsrfProtection,
+  refresh,
+);
+router.post("/logout", authenticateToken, doubleCsrfProtection, logout);
 router.get("/csrf-token", getCsrfToken);
 
 module.exports = router;

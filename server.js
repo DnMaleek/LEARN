@@ -26,12 +26,6 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
-app.use(notFound);
-
-app.use(errorHandler);
-
-const PORT = env.port;
-
 app.get("/test-cookie", (req, res) => {
   res.cookie("username", "David", {
     httpOnly: true,
@@ -58,6 +52,12 @@ app.get("/delete-cookie", (req, res) => {
     message: "Cookie deleted",
   });
 });
+
+app.use(notFound);
+
+app.use(errorHandler);
+
+const PORT = env.port;
 
 async function startServer() {
   try {

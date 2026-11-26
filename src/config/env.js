@@ -6,7 +6,8 @@ const requiredVariables = [
     "DB_PASSWORD",
     "DB_NAME",
     "JWT_ACCESS_SECRET",
-    "JWT_REFRESH_SECRET"
+    "JWT_REFRESH_SECRET",
+    "CSRF_SECRET"
 ];
 
 for (const variable of requiredVariables) {

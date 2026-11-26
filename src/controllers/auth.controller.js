@@ -7,7 +7,7 @@ const {
 const { validationResult } = require("express-validator");
 const { setAuthCookies } = require("../utils/cookies");
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
   try {
     const errors = validationResult(req);
 
@@ -25,11 +25,19 @@ const register = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
-    const user = await loginUser(req.body);
+    const errors = validationResult(req);
 
-    setAuthCookies(res, user.accessToken, user.refreshToken);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    const { user, accessToken, refreshToken } = await loginUser(req.body);
+
+    setAuthCookies(res, accessToken, refreshToken);
 
     res.json({
       message: "User found successfully",
@@ -45,7 +53,7 @@ const login = async (req, res) => {
   }
 };
 
-async function refresh(req, res) {
+async function refresh(req, res, next) {
   try {
     const refreshToken = req.cookies?.refreshToken;
 
@@ -67,7 +75,7 @@ async function refresh(req, res) {
   }
 }
 
-async function logout(req, res) {
+async function logout(req, res, next) {
   try {
     const refreshToken = req.cookies?.refreshToken;
 
